@@ -13,7 +13,6 @@ export interface CredsInterface {
 
 export interface IssueTxParams {
   tx: string
-  encoding: string
 }
 
 export interface Index {

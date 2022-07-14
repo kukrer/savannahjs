@@ -1,6 +1,6 @@
-import { Avalanche } from "avalanche/dist"
-import { IndexAPI } from "avalanche/dist/apis/index"
-import { GetContainerByIDResponse } from "avalanche/dist/apis/index/interfaces"
+import { Avalanche } from "../../src"
+import { IndexAPI } from "../../src/apis/index"
+import { GetContainerByIDResponse } from "../../src/apis/index/interfaces"
 
 const ip: string = "localhost"
 const port: number = 9650
@@ -10,11 +10,12 @@ const avalanche: Avalanche = new Avalanche(ip, port, protocol, networkID)
 const index: IndexAPI = avalanche.Index()
 
 const main = async (): Promise<any> => {
-  const id: string = "eLXEKFFMgGmK7ZLokCFjppdBfGy5hDuRqh5uJVyXXPaRErpAX"
+  const containerID: string =
+    "eLXEKFFMgGmK7ZLokCFjppdBfGy5hDuRqh5uJVyXXPaRErpAX"
   const encoding: string = "hex"
   const baseurl: string = "/ext/index/X/tx"
   const containerByIndex: GetContainerByIDResponse =
-    await index.getContainerByID(id, encoding, baseurl)
+    await index.getContainerByID(containerID, encoding, baseurl)
   console.log(containerByIndex)
 }
 

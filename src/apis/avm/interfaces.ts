@@ -109,7 +109,6 @@ export interface GetUTXOsParams {
   limit: number
   sourceChain?: string
   startIndex?: StartIndexInterface
-  encoding?: string
 }
 
 export interface EndIndex {

@@ -167,10 +167,6 @@ export abstract class StandardBaseTx<
     return bintools.bufferToB58(this.toBuffer())
   }
 
-  toStringHex(): string {
-    return `0x${bintools.addChecksum(this.toBuffer()).toString("hex")}`
-  }
-
   /**
    * Takes the bytes of an [[UnsignedTx]] and returns an array of [[Credential]]s
    *
@@ -457,10 +453,6 @@ export abstract class StandardTx<
    */
   toString(): string {
     return bintools.cb58Encode(this.toBuffer())
-  }
-
-  toStringHex(): string {
-    return `0x${bintools.addChecksum(this.toBuffer()).toString("hex")}`
   }
 
   /**

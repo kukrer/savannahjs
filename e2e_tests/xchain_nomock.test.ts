@@ -27,8 +27,8 @@ describe("XChain", (): void => {
       "createUser",
       () => keystore.createUser(user, passwd),
       (x) => x,
-      Matcher.toEqual,
-      () => { return {} }
+      Matcher.toBe,
+      () => true
     ],
     [
       "createaddrB",

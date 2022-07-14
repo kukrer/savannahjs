@@ -19,10 +19,6 @@ export interface GetLastAcceptedParams extends BaseIndexParams {}
 
 export interface GetLastAcceptedResponse extends BaseIndexResponse {}
 
-export interface GetLastVertexParams extends BaseIndexParams {}
-
-export interface GetLastVertexResponse extends BaseIndexResponse {}
-
 export interface GetContainerByIndexParams extends BaseIndexParams {
   index: string
 }
@@ -30,7 +26,7 @@ export interface GetContainerByIndexParams extends BaseIndexParams {
 export interface GetContainerByIndexResponse extends BaseIndexResponse {}
 
 export interface GetContainerByIDParams extends BaseIndexParams {
-  id: string
+  containerID: string
 }
 
 export interface GetContainerByIDResponse extends BaseIndexResponse {}
@@ -49,9 +45,9 @@ export interface GetContainerRangeResponse {
 }
 
 export interface GetIndexParams extends BaseIndexParams {
-  id: string
+  containerID: string
 }
 
 export interface GetIsAcceptedParams extends BaseIndexParams {
-  id: string
+  containerID: string
 }

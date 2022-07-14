@@ -504,7 +504,7 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
           unlockedChange,
           aad.getChangeAddresses(),
           zero.clone(), // make sure that we don't lock the change output.
-          threshold
+          1 // only require one of the changes addresses to spend this output.
         ) as AmountOutput
         const transferOutput: TransferableOutput = new TransferableOutput(
           assetID,
@@ -936,13 +936,7 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
         changeAddresses
       )
       aad.addAssetAmount(feeAssetID, zero, fee)
-      const success: Error = this.getMinimumSpendable(
-        aad,
-        asOf,
-        undefined,
-        undefined,
-        true
-      )
+      const success: Error = this.getMinimumSpendable(aad, asOf)
       if (typeof success === "undefined") {
         ins = aad.getInputs()
         outs = aad.getAllOutputs()
@@ -963,14 +957,12 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
       weight,
       subnetID
     )
-    subnetAuthCredentials.forEach(
-      (subnetAuthCredential: [number, Buffer]): void => {
-        addSubnetValidatorTx.addSignatureIdx(
-          subnetAuthCredential[0],
-          subnetAuthCredential[1]
-        )
-      }
-    )
+    subnetAuthCredentials.forEach((subnetAuthCredential: [number, Buffer]) => {
+      addSubnetValidatorTx.addSignatureIdx(
+        subnetAuthCredential[0],
+        subnetAuthCredential[1]
+      )
+    })
     return new UnsignedTx(addSubnetValidatorTx)
   }
 
@@ -994,7 +986,6 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
    * @param feeAssetID Optional. The assetID of the fees being burned.
    * @param memo Optional contains arbitrary bytes, up to 256 bytes
    * @param asOf Optional. The timestamp to verify the transaction against as a {@link https://github.com/indutny/bn.js/|BN}
-   * @param changeThreshold Optional. The number of signatures required to spend the funds in the change UTXO
    *
    * @returns An unsigned transaction created from the passed in parameters.
    */
@@ -1015,20 +1006,8 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
     fee: BN = undefined,
     feeAssetID: Buffer = undefined,
     memo: Buffer = undefined,
-    asOf: BN = UnixNow(),
-    changeThreshold: number = 1
+    asOf: BN = UnixNow()
   ): UnsignedTx => {
-    if (rewardThreshold > rewardAddresses.length) {
-      /* istanbul ignore next */
-      throw new ThresholdError(
-        "Error - UTXOSet.buildAddDelegatorTx: reward threshold is greater than number of addresses"
-      )
-    }
-
-    if (typeof changeAddresses === "undefined") {
-      changeAddresses = toAddresses
-    }
-
     let ins: TransferableInput[] = []
     let outs: TransferableOutput[] = []
     let stakeOuts: TransferableOutput[] = []
@@ -1059,7 +1038,7 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
       aad,
       asOf,
       undefined,
-      changeThreshold,
+      undefined,
       true
     )
     if (typeof minSpendableErr === "undefined") {
@@ -1261,21 +1240,15 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
     }
 
     const locktime: BN = new BN(0)
-    const subnetOwners: SECPOwnerOutput = new SECPOwnerOutput(
-      subnetOwnerAddresses,
-      locktime,
-      subnetOwnerThreshold
-    )
-    const createSubnetTx: CreateSubnetTx = new CreateSubnetTx(
+    const UTx: CreateSubnetTx = new CreateSubnetTx(
       networkID,
       blockchainID,
       outs,
       ins,
       memo,
-      subnetOwners
+      new SECPOwnerOutput(subnetOwnerAddresses, locktime, subnetOwnerThreshold)
     )
-
-    return new UnsignedTx(createSubnetTx)
+    return new UnsignedTx(UTx)
   }
 
   /**
@@ -1351,15 +1324,12 @@ export class UTXOSet extends StandardUTXOSet<UTXO> {
       fxIDs,
       genesisData
     )
-    subnetAuthCredentials.forEach(
-      (subnetAuthCredential: [number, Buffer]): void => {
-        createChainTx.addSignatureIdx(
-          subnetAuthCredential[0],
-          subnetAuthCredential[1]
-        )
-      }
-    )
-
+    subnetAuthCredentials.forEach((subnetAuthCredential: [number, Buffer]) => {
+      createChainTx.addSignatureIdx(
+        subnetAuthCredential[0],
+        subnetAuthCredential[1]
+      )
+    })
     return new UnsignedTx(createChainTx)
   }
 }
