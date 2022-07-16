@@ -7,9 +7,13 @@ import BN from "bn.js"
 
 export const PrivateKeyPrefix: string = "PrivateKey-"
 export const NodeIDPrefix: string = "NodeID-"
-export const PrimaryAssetAlias: string = "AVAX"
+export const PrimaryAssetAlias: string = "FUEL"
+//export const MainnetAPI: string = "marularpc.savannah.network"
+//export const FujiAPI: string = "marularpc.savannah.network"
 export const MainnetAPI: string = "api.avax.network"
 export const FujiAPI: string = "api.avax-test.network"
+export const SavannahAPI: string = "marularpc.savannah.network"
+export const MarulaAPI: string = "marularpc.savannah.network"
 
 export interface C {
   blockchainID: string
@@ -73,6 +77,8 @@ export const NetworkIDToHRP: object = {
   3: "denali",
   4: "everest",
   5: "fuji",
+  6: "savannah",
+  7: "marula",
   1337: "custom",
   12345: "local"
 }
@@ -84,30 +90,35 @@ export const HRPToNetworkID: object = {
   denali: 3,
   everest: 4,
   fuji: 5,
+  savannah: 6,
+  marula: 7,
   custom: 1337,
   local: 12345
 }
 
 export const NetworkIDToNetworkNames: object = {
   0: ["Manhattan"],
-  1: ["Avalanche", "Mainnet"],
+  1: ["Avalanche"],
   2: ["Cascade"],
   3: ["Denali"],
   4: ["Everest"],
-  5: ["Fuji", "Testnet"],
-  1337: ["Custom Network"],
+  5: ["Fuji"],
+  6: ["Savannah", "Mainnet"],
+  7: ["Marula", "Testnet"],
   12345: ["Local Network"]
 }
 
 export const NetworkNameToNetworkID: object = {
   Manhattan: 0,
   Avalanche: 1,
-  Mainnet: 1,
+  Mainnet: 6,
   Cascade: 2,
   Denali: 3,
   Everest: 4,
   Fuji: 5,
-  Testnet: 5,
+  Testnet: 7,
+  Savannah: 6,
+  Marula: 7,
   Custom: 1337,
   "Custom Network": 1337,
   Local: 12345,
@@ -199,7 +210,7 @@ const n0C: C = {
 }
 // End Manhattan
 
-// Start mainnet
+// Start avalanche mainnet
 let avaxAssetID: string = "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z"
 const n1X: X = {
   blockchainID: "2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM",
@@ -411,6 +422,106 @@ const n5C: C = {
 }
 // End Fuji
 
+// Start savannah
+avaxAssetID = "293XXJVSuQMKYRSjZQuGpQoVVjjxohq3iJqhPomk3YdE9rtrsH"
+const n6X: X = {
+  blockchainID: "ean2bdjk8TuctSym4zdPprhtuohqRnwj3fDbAuKj89qEwT8x3",
+  avaxAssetID: avaxAssetID,
+  alias: XChainAlias,
+  vm: XChainVMName,
+  txFee: MILLIAVAX,
+  creationTxFee: CENTIAVAX,
+  mintTxFee: MILLIAVAX
+}
+
+const n6P: P = {
+  blockchainID: PlatformChainID,
+  avaxAssetID: avaxAssetID,
+  alias: PChainAlias,
+  vm: PChainVMName,
+  txFee: MILLIAVAX,
+  creationTxFee: CENTIAVAX,
+  createSubnetTx: ONEAVAX,
+  createChainTx: ONEAVAX,
+  minConsumption: 0.1,
+  maxConsumption: 0.12,
+  maxStakingDuration: new BN(31536000),
+  maxSupply: new BN(720000000).mul(ONEAVAX),
+  minStake: ONEAVAX.mul(new BN(2000)),
+  minStakeDuration: 2 * 7 * 24 * 60 * 60, //two weeks
+  maxStakeDuration: 365 * 24 * 60 * 60, // one year
+  minDelegationStake: ONEAVAX.mul(new BN(25)),
+  minDelegationFee: new BN(2)
+}
+
+const n6C: C = {
+  blockchainID: "5du4Q8LdjFXtcW4ZZrTE3qWduuki8MCTJC3Be1xbL4d2u4n7M",
+  alias: CChainAlias,
+  vm: CChainVMName,
+  txBytesGas: 1,
+  costPerSignature: 1000,
+  // DEPRECATED - txFee
+  // WILL BE REMOVED IN NEXT MAJOR VERSION BUMP
+  txFee: MILLIAVAX,
+  // DEPRECATED - gasPrice
+  // WILL BE REMOVED IN NEXT MAJOR VERSION BUMP
+  gasPrice: GWEI.mul(new BN(225)),
+  minGasPrice: GWEI.mul(new BN(25)),
+  maxGasPrice: GWEI.mul(new BN(1000)),
+  chainID: 43004
+}
+// End savannah
+
+// Start Marula
+avaxAssetID = "293XXJVSuQMKYRSjZQuGpQoVVjjxohq3iJqhPomk3YdE9rtrsH"
+const n7X: X = {
+  blockchainID: "ean2bdjk8TuctSym4zdPprhtuohqRnwj3fDbAuKj89qEwT8x3",
+  avaxAssetID: avaxAssetID,
+  alias: XChainAlias,
+  vm: XChainVMName,
+  txFee: MILLIAVAX,
+  creationTxFee: CENTIAVAX,
+  mintTxFee: MILLIAVAX
+}
+
+const n7P: P = {
+  blockchainID: PlatformChainID,
+  avaxAssetID: avaxAssetID,
+  alias: PChainAlias,
+  vm: PChainVMName,
+  txFee: MILLIAVAX,
+  creationTxFee: CENTIAVAX,
+  createSubnetTx: ONEAVAX,
+  createChainTx: ONEAVAX,
+  minConsumption: 0.1,
+  maxConsumption: 0.12,
+  maxStakingDuration: new BN(31536000),
+  maxSupply: new BN(720000000).mul(ONEAVAX),
+  minStake: ONEAVAX,
+  minStakeDuration: 24 * 60 * 60, //one day
+  maxStakeDuration: 365 * 24 * 60 * 60, // one year
+  minDelegationStake: ONEAVAX,
+  minDelegationFee: new BN(2)
+}
+
+const n7C: C = {
+  blockchainID: "5du4Q8LdjFXtcW4ZZrTE3qWduuki8MCTJC3Be1xbL4d2u4n7L",
+  alias: CChainAlias,
+  vm: CChainVMName,
+  txBytesGas: 1,
+  costPerSignature: 1000,
+  // DEPRECATED - txFee
+  // WILL BE REMOVED IN NEXT MAJOR VERSION BUMP
+  txFee: MILLIAVAX,
+  // DEPRECATED - gasPrice
+  // WILL BE REMOVED IN NEXT MAJOR VERSION BUMP
+  gasPrice: GWEI.mul(new BN(225)),
+  minGasPrice: GWEI.mul(new BN(25)),
+  maxGasPrice: GWEI.mul(new BN(1000)),
+  chainID: 43003
+}
+// End marula
+
 // Start custom network
 avaxAssetID = "BUuypiq2wyuLMvyhzFXcPyxPMCgSp7eeDohhQRqTChoBjKziC"
 const n1337X: X = { ...n5X }
@@ -492,6 +603,24 @@ export class Defaults {
       "11111111111111111111111111111111LpoYY": n5P,
       C: n5C,
       yH8D7ThNJkxmtkuv2jgBa4P1Rn3Qpr4pPr7QYNfcdoS6k6HWp: n5C
+    },
+    6: {
+      hrp: NetworkIDToHRP[6],
+      X: n6X,
+      ean2bdjk8TuctSym4zdPprhtuohqRnwj3fDbAuKj89qEwT8x3: n6X,
+      P: n6P,
+      "11111111111111111111111111111111LpoYY": n6P,
+      C: n6C,
+      du4Q8LdjFXtcW4ZZrTE3qWduuki8MCTJC3Be1xbL4d2u4n7M: n6C
+    },
+    7: {
+      hrp: NetworkIDToHRP[7],
+      X: n7X,
+      ean2bdjk8TuctSym4zdPprhtuohqRnwj3fDbAuKj89qEwT8x3: n7X,
+      P: n7P,
+      "11111111111111111111111111111111LpoYY": n7P,
+      C: n7C,
+      "5du4Q8LdjFXtcW4ZZrTE3qWduuki8MCTJC3Be1xbL4d2u4n7L": n7C
     },
     1337: {
       hrp: NetworkIDToHRP[1337],
